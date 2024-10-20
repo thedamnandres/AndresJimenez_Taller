@@ -19,13 +19,14 @@ namespace AndresJimenez_Taller.Controllers
             _context = context;
         }
 
-        // GET: Jugadores
+        // GET: Jugadors
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Jugador.ToListAsync());
+            var andresJimenez_TallerContext = _context.Jugador.Include(j => j.Equipo);
+            return View(await andresJimenez_TallerContext.ToListAsync());
         }
 
-        // GET: Jugadores/Details/5
+        // GET: Jugadors/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,6 +35,7 @@ namespace AndresJimenez_Taller.Controllers
             }
 
             var jugador = await _context.Jugador
+                .Include(j => j.Equipo)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (jugador == null)
             {
@@ -43,18 +45,19 @@ namespace AndresJimenez_Taller.Controllers
             return View(jugador);
         }
 
-        // GET: Jugadores/Create
+        // GET: Jugadors/Create
         public IActionResult Create()
         {
+            ViewData["IdEquipo"] = new SelectList(_context.Equipo, "Id", "Id");
             return View();
         }
 
-        // POST: Jugadores/Create
+        // POST: Jugadors/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Posicion,Edad")] Jugador jugador)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,Posicion,Edad,IdEquipo")] Jugador jugador)
         {
             if (ModelState.IsValid)
             {
@@ -62,10 +65,11 @@ namespace AndresJimenez_Taller.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["IdEquipo"] = new SelectList(_context.Equipo, "Id", "Id", jugador.IdEquipo);
             return View(jugador);
         }
 
-        // GET: Jugadores/Edit/5
+        // GET: Jugadors/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -78,15 +82,16 @@ namespace AndresJimenez_Taller.Controllers
             {
                 return NotFound();
             }
+            ViewData["IdEquipo"] = new SelectList(_context.Equipo, "Id", "Id", jugador.IdEquipo);
             return View(jugador);
         }
 
-        // POST: Jugadores/Edit/5
+        // POST: Jugadors/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Posicion,Edad")] Jugador jugador)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Posicion,Edad,IdEquipo")] Jugador jugador)
         {
             if (id != jugador.Id)
             {
@@ -113,10 +118,11 @@ namespace AndresJimenez_Taller.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["IdEquipo"] = new SelectList(_context.Equipo, "Id", "Id", jugador.IdEquipo);
             return View(jugador);
         }
 
-        // GET: Jugadores/Delete/5
+        // GET: Jugadors/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,6 +131,7 @@ namespace AndresJimenez_Taller.Controllers
             }
 
             var jugador = await _context.Jugador
+                .Include(j => j.Equipo)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (jugador == null)
             {
@@ -134,7 +141,7 @@ namespace AndresJimenez_Taller.Controllers
             return View(jugador);
         }
 
-        // POST: Jugadores/Delete/5
+        // POST: Jugadors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

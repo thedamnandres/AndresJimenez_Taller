@@ -14,6 +14,8 @@ namespace AndresJimenez_Taller.Models
 
         public int Titulos { get; set; }
         [Required]
-        public bool Extranjeros {  get; set; }
+        public bool Extranjeros { get; set; }
+
+        public ICollection<Jugador> Jugadores { get; set; }
     }
 }
