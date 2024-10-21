@@ -7,16 +7,20 @@ namespace AndresJimenez_Taller.Models
     {
         [Key]
         public int Id { get; set; }
+
         [MaxLength(100)]
+        [Required(ErrorMessage = "El nombre es obligatorio")]
         public string Nombre { get; set; }
 
-        public string Posicion {  get; set; }
-        [Range(0,100)]
-        public int Edad {  get; set; }
-        public Equipo Equipo { get; set; }
+        [Required(ErrorMessage = "La posición es obligatoria")]
+        public string Posicion { get; set; }
 
-       [ForeignKey("Equipo")]
+        [Range(0, 100, ErrorMessage = "La edad debe estar entre 0 y 100 años")]
+        public int Edad { get; set; }
+
         public int IdEquipo { get; set; }
 
+        [ForeignKey("IdEquipo")]
+        public Equipo Equipo { get; set; }
     }
 }

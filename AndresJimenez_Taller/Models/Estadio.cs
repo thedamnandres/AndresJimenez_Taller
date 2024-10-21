@@ -6,6 +6,10 @@ namespace AndresJimenez_Taller.Models
     {
         [Key]
         public int Id { get; set; }
+        [Required]
+        [MaxLength(100)]
+        public string Nombre { get; set; }
+
         [MaxLength(200)]
         public string Direccion { get; set; }
         [MaxLength(50)]

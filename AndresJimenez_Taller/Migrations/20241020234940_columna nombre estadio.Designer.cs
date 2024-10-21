@@ -3,6 +3,7 @@ using AndresJimenez_Taller.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AndresJimenez_Taller.Migrations
 {
     [DbContext(typeof(AndresJimenez_TallerContext))]
-    partial class AndresJimenez_TallerContextModelSnapshot : ModelSnapshot
+    [Migration("20241020234940_columna nombre estadio")]
+    partial class columnanombreestadio
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,7 +50,7 @@ namespace AndresJimenez_Taller.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Equipo", (string)null);
+                    b.ToTable("Equipo");
                 });
 
             modelBuilder.Entity("AndresJimenez_Taller.Models.Estadio", b =>
@@ -71,14 +74,13 @@ namespace AndresJimenez_Taller.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("Nombre")
-                        .IsRequired()
+                    b.Property<int>("Nombre")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Estadio", (string)null);
+                    b.ToTable("Estadio");
                 });
 
             modelBuilder.Entity("AndresJimenez_Taller.Models.Jugador", b =>
@@ -108,7 +110,7 @@ namespace AndresJimenez_Taller.Migrations
 
                     b.HasIndex("IdEquipo");
 
-                    b.ToTable("Jugador", (string)null);
+                    b.ToTable("Jugador");
                 });
 
             modelBuilder.Entity("AndresJimenez_Taller.Models.Jugador", b =>

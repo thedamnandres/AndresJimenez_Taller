@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AndresJimenez_Taller.Data;
 using AndresJimenez_Taller.Models;
+using System.Diagnostics;
 
 namespace AndresJimenez_Taller.Controllers
 {
@@ -46,15 +47,14 @@ namespace AndresJimenez_Taller.Controllers
         }
 
         // GET: Jugadors/Create
+        
         public IActionResult Create()
         {
-            ViewData["IdEquipo"] = new SelectList(_context.Equipo, "Id", "Id");
+            ViewData["IdEquipo"] = new SelectList(_context.Equipo, "Id", "Name");
             return View();
         }
 
-        // POST: Jugadors/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nombre,Posicion,Edad,IdEquipo")] Jugador jugador)
@@ -65,7 +65,7 @@ namespace AndresJimenez_Taller.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdEquipo"] = new SelectList(_context.Equipo, "Id", "Id", jugador.IdEquipo);
+            ViewData["IdEquipo"] = new SelectList(_context.Equipo, "Id", "Name", jugador.IdEquipo);
             return View(jugador);
         }
 
